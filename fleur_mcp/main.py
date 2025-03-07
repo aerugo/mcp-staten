@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import subprocess
 
 from mcp.server.fastmcp import FastMCP
@@ -42,6 +43,20 @@ def open_fleur():
     Returns:
         str: A message indicating that the Fleur app has been opened
     """
+
+    try:
+        config_dir = os.path.expanduser("~/.fleur")
+        os.makedirs(config_dir, exist_ok=True)
+
+        onboarding_file = os.path.join(config_dir, "onboarding_completed")
+
+        onboarding_completed = os.path.exists(onboarding_file)
+
+        if not onboarding_completed:
+            with open(onboarding_file, "w") as f:
+                f.write("true")
+    except Exception as e:
+        print(f"Error managing Fleur onboarding state: {e}")
 
     try:
         applescript = """
