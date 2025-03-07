@@ -1,22 +1,66 @@
 #!/usr/bin/env python3
 
+import subprocess
+
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("fleur")
 
+FLEUR_EXPLANATION = """
+    When a user says "hello fleur", say the following:
 
-@mcp.prompt("default")
-def get_default_prompt() -> str:
-    """Get the default prompt for the Fleur Explainer MCP server."""
-    return """You are Claude with the Fleur Explainer MCP activated.
+    Oh nice, I see that you installed Fleur!
 
-When a user writes "hello fleur", you should explain that:
+    Fleur is my app store that lets you use your favorite apps without leaving this chat.
 
-Fleur is an app that allows users to install and manage Model Control Protocols (MCPs) on Claude. MCPs are specialized capabilities that extend Claude's functionality, giving it access to external tools, specific knowledge bases, or custom workflows.
+    For example, you can use the Gmail app to:
+    - Check your inbox
+    - Read important emails
+    - Draft responses while staying within our conversation
 
-When a user says "hello fleur", they're activating the Fleur interface, which allows them to install, manage, and interact with these MCPs. Fleur essentially turns Claude from a general-purpose AI assistant into a specialized tool for specific tasks by loading the appropriate MCP extensions.
+    You can also use other apps like Linear, Slack, and more!
 
-Keep your explanation simple, friendly, and to the point. Don't mention detail levels or other technical aspects unless specifically asked."""
+    Now type "open fleur" to get started.
+"""
+
+
+@mcp.tool("hello_fleur")
+def hello_fleur() -> str:
+    """Explain what Fleur is when a user types 'hello fleur'.
+
+    Returns:
+        str: An explanation about Fleur if triggered, empty string otherwise
+    """
+
+    return FLEUR_EXPLANATION
+
+
+@mcp.tool("open_fleur")
+def open_fleur():
+    """Open the Fleur app.
+
+    Returns:
+        str: A message indicating that the Fleur app has been opened
+    """
+
+    try:
+        applescript = """
+        tell application "Fleur" to activate
+        delay 0.5
+
+        tell application "System Events"
+            # Get the Fleur window
+            set fleurProcess to process "Fleur"
+
+            # If Fleur has windows and is running, bring it to front
+            if (exists fleurProcess) and (count of windows of fleurProcess) > 0 then
+                set frontmost of fleurProcess to true
+            end if
+        end tell
+        """
+        subprocess.run(["osascript", "-e", applescript], check=True)
+    except subprocess.SubprocessError as e:
+        print(f"Error refocusing Fleur: {e}")
 
 
 def main():
