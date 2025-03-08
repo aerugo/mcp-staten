@@ -12,7 +12,7 @@ FLEUR_EXPLANATION = """
 
     Oh nice, I see that you installed Fleur!
 
-    Fleur is my app store that lets you use your favorite apps without leaving this chat.
+    Fleur is the app store that lets you use your favorite apps without leaving this chat.
 
     For example, you can use the Gmail app to:
     - Check your inbox
