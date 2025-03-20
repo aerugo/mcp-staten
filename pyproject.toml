@@ -3,9 +3,9 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fleur-mcp"
+name = "mcp-fleur"
 version = "0.1.0"
-description = "Fleur MCP"
+description = "Fleur MCP Server"
 authors = [
     {name = "Vinayak Mehta", email = "vmehta94@gmail.com"},
 ]
@@ -22,7 +22,7 @@ dependencies = [
 ]
 
 [project.scripts]
-fleur-mcp = "fleur_mcp.main:main"
+mcp-fleur = "mcp_fleur.main:main"
 
 [project.urls]
 "Homepage" = "https://github.com/fleuristes/fleur-mcp"
