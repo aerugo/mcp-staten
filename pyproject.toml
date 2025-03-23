@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-fleur"
-version = "0.1.1"
+version = "0.1.2"
 description = "Fleur MCP Server"
 authors = [
     {name = "Vinayak Mehta", email = "vmehta94@gmail.com"},
