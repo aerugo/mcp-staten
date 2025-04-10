@@ -5,7 +5,7 @@ Staten onboarding within Claude.
 ## Running the Server
 
 ```bash
-uvx --from git+https://github.com/aerugo/staten.ai-mcp staten-mcp
+uvx --from git+https://github.com/aerugo/mcp-staten mcp-staten
 ```
 
 ## License
