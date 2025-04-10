@@ -9,23 +9,18 @@ import subprocess
 
 from mcp.server.fastmcp import FastMCP
 
-mcp = FastMCP("fleur")
+mcp = FastMCP("staten")
 
 FLEUR_EXPLANATION = """
-    When a user says "hello fleur", say the following:
+    När en användare säger "hej staten", säg följande:
 
-    Oh nice, I see that you installed Fleur!
+    Åh vad kul, jag ser att du har installerat staten.ai!
 
-    Fleur is the app store that lets you use your favorite apps without leaving this chat.
+    Staten.ai är en sampling av MCP-appar som gör det möjligt att prata med olika öppna data i Sverige.
 
-    For example, you can use the Gmail app to:
-    - Check your inbox
-    - Read important emails
-    - Draft responses while staying within our conversation
+    Till exempel kan du använda Kolada för att få information om kommuner och regioner.
 
-    You can also use other apps like Linear, Slack, and more!
-
-    Now type "open fleur" to get started.
+    Skriv nu "öppna staten" för att komma igång.
 """
 
 
@@ -33,7 +28,7 @@ def find_windows_executable(name, search_dirs=None):
     """Simple but reliable function to find an executable.
 
     Args:
-        name: Name of the executable (e.g., "Fleur.exe")
+        name: Name of the executable (e.g., "Staten.exe")
         search_dirs: List of directories to search in. If None, uses default locations.
 
     Returns:
@@ -48,17 +43,19 @@ def find_windows_executable(name, search_dirs=None):
         ]
 
     direct_paths = [
-        os.path.join(os.path.expanduser("~"), "AppData", "Local", "Fleur", "Fleur.exe"),
         os.path.join(
-            os.path.expanduser("~"), "AppData", "Roaming", "Fleur", "Fleur.exe"
+            os.path.expanduser("~"), "AppData", "Local", "Staten", "Staten.exe"
         ),
         os.path.join(
-            os.environ.get("ProgramFiles", "C:\\Program Files"), "Fleur", "Fleur.exe"
+            os.path.expanduser("~"), "AppData", "Roaming", "Staten", "Staten.exe"
+        ),
+        os.path.join(
+            os.environ.get("ProgramFiles", "C:\\Program Files"), "Staten", "Staten.exe"
         ),
         os.path.join(
             os.environ.get("ProgramFiles(x86)", "C:\\Program Files (x86)"),
-            "Fleur",
-            "Fleur.exe",
+            "Staten",
+            "Staten.exe",
         ),
     ]
 
@@ -83,7 +80,7 @@ def find_windows_executable(name, search_dirs=None):
         if os.path.isfile(path):
             return path
 
-        path = os.path.join(directory, "Fleur", name)
+        path = os.path.join(directory, "Staten", name)
         if os.path.isfile(path):
             return path
 
@@ -96,7 +93,7 @@ def find_windows_executable(name, search_dirs=None):
 
 @mcp.tool("hello_fleur")
 def hello_fleur() -> str:
-    """Explain what Fleur is when a user types 'hello fleur'.
+    """Explain what staten is when a user types 'hej staten'.
 
     Returns:
         str: An explanation about Fleur if triggered, empty string otherwise
@@ -107,14 +104,14 @@ def hello_fleur() -> str:
 
 @mcp.tool("open_fleur")
 def open_fleur():
-    """Open the Fleur app.
+    """Open the staten.ai app.
 
     Returns:
-        str: A message indicating that the Fleur app has been opened
+        str: A message indicating that the staten app has been opened
     """
 
     try:
-        config_dir = os.path.expanduser("~/.fleur")
+        config_dir = os.path.expanduser("~/.staten")
         os.makedirs(config_dir, exist_ok=True)
 
         onboarding_file = os.path.join(config_dir, "onboarding_completed")
@@ -125,21 +122,21 @@ def open_fleur():
             with open(onboarding_file, "w") as f:
                 f.write("true")
     except Exception as e:
-        print(f"Error managing Fleur onboarding state: {e}")
+        print(f"Error managing Staten onboarding state: {e}")
 
     try:
         if platform.system() == "Darwin":
             applescript = """
-            tell application "Fleur" to activate
+            tell application "Staten" to activate
             delay 0.5
 
             tell application "System Events"
-                # Get the Fleur window
-                set fleurProcess to process "Fleur"
+                # Get the  window
+                set fleurProcess to process "Staten"
 
-                # If Fleur has windows and is running, bring it to front
-                if (exists fleurProcess) and (count of windows of fleurProcess) > 0 then
-                    set frontmost of fleurProcess to true
+                # If Staten has windows and is running, bring it to front
+                if (exists statenProcess) and (count of windows of statenProcess) > 0 then
+                    set frontmost of statenProcess to true
                 end if
             end tell
             """
@@ -156,10 +153,10 @@ def open_fleur():
 
                 SW_RESTORE = 9
 
-                fleur_path = find_windows_executable("Fleur.exe")
+                fleur_path = find_windows_executable("Staten.exe")
                 if not fleur_path:
                     print(
-                        "Fleur executable not found. Please install Fleur or ensure it's in a standard location."
+                        "Staten executable not found. Please install Staten or ensure it's in a standard location."
                     )
                     return
 
@@ -203,7 +200,7 @@ def open_fleur():
                         if process_path and (
                             os.path.normpath(process_path)
                             == os.path.normpath(fleur_path)
-                            or "\\Fleur\\" in process_path
+                            or "\\Staten\\" in process_path
                         ):
                             fleur_windows.append(hwnd)
 
@@ -219,19 +216,19 @@ def open_fleur():
                     if fleur_path:
                         subprocess.Popen(fleur_path)
             except Exception as e:
-                print(f"Error focusing Fleur window: {e}")
+                print(f"Error focusing Staten window: {e}")
                 try:
-                    fleur_path = find_windows_executable("Fleur.exe")
+                    fleur_path = find_windows_executable("Staten.exe")
                     if fleur_path:
                         subprocess.Popen(fleur_path)
                     else:
                         print(
-                            "Fleur executable not found. Please install Fleur or ensure it's in a standard location."
+                            "Staten executable not found. Please install Staten or ensure it's in a standard location."
                         )
                 except Exception as launch_error:
-                    print(f"Error launching Fleur: {launch_error}")
+                    print(f"Error launching Staten: {launch_error}")
     except subprocess.SubprocessError as e:
-        print(f"Error refocusing Fleur: {e}")
+        print(f"Error refocusing Staten: {e}")
 
 
 def main():
