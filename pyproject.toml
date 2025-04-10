@@ -3,11 +3,11 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mcp-fleur"
+name = "mcp-staten"
 version = "0.1.2"
-description = "Fleur MCP Server"
+description = "Staten MCP Server"
 authors = [
-    {name = "Vinayak Mehta", email = "vmehta94@gmail.com"},
+    {name = "Vinayak Mehta", email = "vmehta94@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,9 +23,9 @@ dependencies = [
 ]
 
 [project.scripts]
-mcp-fleur = "mcp_fleur.main:main"
-fleur-mcp = "mcp_fleur.main:main"
+mcp-staten = "mcp_staten.main:main"
+staten-mcp = "mcp_staten.main:main"
 
 [project.urls]
-"Homepage" = "https://github.com/fleuristes/fleur-mcp"
+"Homepage" = "https://github.com/aerugo/staten.ai"
 "Bug Tracker" = "https://github.com/fleuristes/fleur-mcp/issues"

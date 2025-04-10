@@ -1,11 +1,11 @@
-# Fleur MCP
+# Staten MCP
 
-Fleur onboarding within Claude.
+Staten onboarding within Claude.
 
 ## Running the Server
 
 ```bash
-uvx --from git+https://github.com/fleuristes/fleur-mcp fleur-mcp
+uvx --from git+https://github.com/aerugo/staten.ai-mcp staten-mcp
 ```
 
 ## License
